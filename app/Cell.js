@@ -5,8 +5,25 @@ function Cell(i, j, r) {
     const {x, y} = ijToxy(i, j);
     this.pos = new p5.Vector(x, y);
     this.pointsDown = (i + j) % 2 === 1;
-
     this.selected = false;
+    this.triomino;
+
+    // The sprite is used to detect the clicks
+    // its draw function creates the right shape but doesn't really draw it on screen
+    this.sprite = createTriangleSprite(x, y, this.r);
+
+    this.sprite.onMousePressed = () => {
+        grid.cells.forEach((l) => {
+            l.forEach((c) => {
+                c.selected = false;
+            });
+        });
+
+        this.selected = true;
+        selectedCell = this;
+
+        placeTriomino();
+    };
 
     this.show = () => {
         push();

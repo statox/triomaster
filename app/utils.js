@@ -15,15 +15,22 @@ function xyToij(x, y) {
     return {i, j};
 }
 
-function mouseClicked() {
-    grid.cells.forEach((l) => {
-        l.forEach((c) => {
-            c.selected = false;
-        });
-    });
+function placeTriomino() {
+    if (!selectedCell || !selectedTriomino) {
+        return;
+    }
 
-    const {i, j} = xyToij(mouseX, mouseY);
+    // Don't allow placing a triomino on an already filled cell
+    if (selectedCell.triomino) {
+        return;
+    }
 
-    console.log({mouseX, mouseY, i, j});
-    grid.cells[j][i].selected = true;
+    selectedCell.triomino = selectedTriomino;
+    selectedTriomino.move(selectedCell.pos.x, selectedCell.pos.y);
+    selectedTriomino.pointsDown = selectedCell.pointsDown;
+    selectedCell.selected = false;
+    selectedTriomino.selected = false;
+    selectedTriomino.isInHand = false;
+    selectedCell = undefined;
+    selectedTriomino = undefined;
 }

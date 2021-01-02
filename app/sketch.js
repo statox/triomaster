@@ -1,6 +1,10 @@
 const TRIOMINO_SIZE = 50;
 let grid;
 let ts;
+let playerHand;
+
+let selectedTriomino;
+let selectedCell;
 
 function setup() {
     // Create the canvas and put it in its div
@@ -20,11 +24,24 @@ function setup() {
     }
 
     grid = new Grid();
+
+    playerHand = new Hand();
+    for (let i = 0; i < 9; i++) {
+        const randI = parseInt(random(ts.length));
+        const t = ts.splice(randI, 1)[0];
+        playerHand.add(t);
+    }
 }
 
 function draw() {
     background(100, 100, 100);
+    // The sprites are used to be clickable but their drawing function
+    // doesn't actually show anything
+    drawSprites();
+
     grid.show();
+
+    playerHand.show();
 
     // ts.forEach((t) => {
     // t.show();

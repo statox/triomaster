@@ -3,12 +3,38 @@ function Triomino(x, y, r, pointsDown, values) {
     this.r = r;
     this.values = values;
     this.pointsDown = pointsDown;
+    this.selected = false;
+    this.isInHand = false;
+
+    // The sprite is used to detect the clicks
+    // its draw function creates the right shape but doesn't really draw it on screen
+    this.sprite = createTriangleSprite(x, y, this.r);
+    this.sprite.onMousePressed = () => {
+        if (this.isInHand) {
+            playerHand.ts.forEach((t) => (t.selected = false));
+            this.selected = true;
+            selectedTriomino = this;
+
+            placeTriomino();
+        }
+    };
+
+    this.move = (x, y) => {
+        this.pos.x = x;
+        this.pos.y = y;
+        this.sprite.position.x = x;
+        this.sprite.position.y = y;
+    };
 
     this.show = () => {
         push();
         stroke(0);
         strokeWeight(1);
         fill('rgba(200, 200, 200, 0.5)');
+
+        if (this.selected) {
+            fill('rgba(200, 200, 200, 0.8)');
+        }
 
         // Move to the right position and rotate to point up
         translate(this.pos.x, this.pos.y);
