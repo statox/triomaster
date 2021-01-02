@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Triomaster</title>
+    <meta name="description" content="An online Triomino">
+
+    <!-- newcss framework, lightweight and elegant css framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/open-fonts@1.1.1/fonts/inter.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="css/index.css">
+
+    <!-- Dependencies -->
+    <script async defer src="https://api.newcss.net/latest.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/p5@1.0.0/lib/p5.js"></script>
+
+    <script defer src="libs/p5.play.js"></script>
+
+
+    <!-- App -->
+    <script defer src="app/sketch.js"></script>
+    <script defer src="app/combinations.js"></script>
+    <script defer src="app/Triomino.js"></script>
+    <script defer src="app/Grid.js"></script>
+    <script defer src="app/Cell.js"></script>
+    <script defer src="app/utils.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Triomaster</h1>
+    </header>
+    <div class="content-container" id="appDiv">
+        <div oncontextmenu="return false;" id="canvasDiv"></div>
+    </div>
+</body>
+
+</html>
