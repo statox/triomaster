@@ -19,10 +19,23 @@ function Cell(i, j, r) {
             });
         });
 
-        this.selected = true;
-        selectedCell = this;
-
+        this.select();
         placeTriomino();
+    };
+
+    this.select = () => {
+        if (!selectedTriomino) {
+            return;
+        }
+        selectedCell = this;
+        this.selected = true;
+    };
+
+    this.unselect = () => {
+        if (selectedCell) {
+            selectedCell = undefined;
+        }
+        this.selected = false;
     };
 
     this.show = () => {

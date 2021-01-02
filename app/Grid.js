@@ -10,6 +10,24 @@ function Grid() {
         }
     }
 
+    this.getNeighbors = (i, j) => {
+        const n = {};
+        if (i > 0) {
+            n.left = this.cells[j][i - 1];
+        }
+        if (i < this.W - 1) {
+            n.right = this.cells[j][i + 1];
+        }
+        if (this.cells[j][i].pointsDown && j > 0) {
+            n.top = this.cells[j - 1][i];
+        }
+        if (!this.cells[j][i].pointsDown && j < this.H - 1) {
+            n.bottom = this.cells[j + 1][i];
+        }
+
+        return n;
+    };
+
     this.show = () => {
         for (l of this.cells) {
             for (cell of l) {

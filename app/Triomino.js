@@ -5,6 +5,7 @@ function Triomino(x, y, r, pointsDown, values) {
     this.pointsDown = pointsDown;
     this.selected = false;
     this.isInHand = false;
+    this.isPlayed = false;
 
     // The sprite is used to detect the clicks
     // its draw function creates the right shape but doesn't really draw it on screen
@@ -12,11 +13,21 @@ function Triomino(x, y, r, pointsDown, values) {
     this.sprite.onMousePressed = () => {
         if (this.isInHand) {
             playerHand.ts.forEach((t) => (t.selected = false));
-            this.selected = true;
-            selectedTriomino = this;
-
-            placeTriomino();
+            unselectCell();
+            this.select();
         }
+    };
+
+    this.select = () => {
+        selectedTriomino = this;
+        this.selected = true;
+    };
+
+    this.unselect = () => {
+        if (selectedTriomino) {
+            selectedTriomino = undefined;
+        }
+        this.selected = false;
     };
 
     this.move = (x, y) => {
@@ -24,6 +35,10 @@ function Triomino(x, y, r, pointsDown, values) {
         this.pos.y = y;
         this.sprite.position.x = x;
         this.sprite.position.y = y;
+    };
+
+    this.turnLeft = () => {
+        this.values.push(this.values.shift());
     };
 
     this.show = () => {

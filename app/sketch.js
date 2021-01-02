@@ -2,6 +2,8 @@ const TRIOMINO_SIZE = 50;
 let grid;
 let ts;
 let playerHand;
+let playedTs;
+let isFirstTurn = true;
 
 let selectedTriomino;
 let selectedCell;
@@ -14,6 +16,7 @@ function setup() {
     const values = [];
     for (let a = 0; a <= 9; a++) {}
     ts = [];
+    playedTs = [];
     for (let j = 0; j < 7; j++) {
         for (let i = 0; i < 8; i++) {
             const {x, y} = ijToxy(i, j);
@@ -43,7 +46,7 @@ function draw() {
 
     playerHand.show();
 
-    // ts.forEach((t) => {
-    // t.show();
-    // });
+    playedTs.forEach((t) => {
+        t.show();
+    });
 }
