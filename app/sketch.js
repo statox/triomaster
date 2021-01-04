@@ -8,13 +8,11 @@ let isFirstTurn = true;
 let selectedTriomino;
 let selectedCell;
 
-function setup() {
-    // Create the canvas and put it in its div
-    const myCanvas = createCanvas(800, 800);
-    myCanvas.parent('canvasDiv');
+let autoPlayBtn;
+let drawBtn;
+let resetBtn;
 
-    const values = [];
-    for (let a = 0; a <= 9; a++) {}
+function resetGame() {
     ts = [];
     playedTs = [];
     for (let j = 0; j < 7; j++) {
@@ -29,11 +27,26 @@ function setup() {
     grid = new Grid();
 
     playerHand = new Hand();
-    for (let i = 0; i < 9; i++) {
-        const randI = parseInt(random(ts.length));
-        const t = ts.splice(randI, 1)[0];
-        playerHand.add(t);
+    for (let i = 0; i < 6; i++) {
+        drawTriomino();
     }
+}
+
+function setup() {
+    // Create the canvas and put it in its div
+    const myCanvas = createCanvas(800, 800);
+    myCanvas.parent('canvasDiv');
+
+    resetGame();
+
+    autoPlayBtn = createButton('Auto');
+    autoPlayBtn.mousePressed(autoPlay);
+
+    drawBtn = createButton('Draw');
+    drawBtn.mousePressed(drawTriomino);
+
+    resetBtn = createButton('Reset');
+    resetBtn.mousePressed(resetGame);
 }
 
 function draw() {

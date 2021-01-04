@@ -51,12 +51,6 @@ function placeTriomino() {
     selectedTriomino.isPlayed = true;
 
     unselectEverything();
-
-    if (ts.length) {
-        const randI = parseInt(random(ts.length));
-        const t = ts.splice(randI, 1)[0];
-        playerHand.add(t);
-    }
 }
 
 function isAllowedMove(triomino, cell) {
@@ -127,4 +121,42 @@ function testMatch(triomino, cell) {
     }
 
     return true;
+}
+
+function autoPlay() {
+    console.log('auto playinbg');
+
+    let foundMove = false;
+    let stuck = false;
+    let handIndex = 0;
+    while (!foundMove && handIndex < playerHand.ts.length) {
+        const t = playerHand.ts[handIndex];
+        for (l of grid.cells) {
+            for (cell of l) {
+                if (isAllowedMove(t, cell)) {
+                    foundMove = true;
+                    t.select();
+                    cell.select();
+                    placeTriomino();
+                    return;
+                }
+            }
+        }
+        handIndex++;
+    }
+    console.log('no move to play');
+    if (ts.length) {
+        console.log('drawing');
+        drawTriomino();
+    } else {
+        console.log('No more triominos to draw');
+    }
+}
+
+function drawTriomino() {
+    if (ts.length) {
+        const randI = parseInt(random(ts.length));
+        const t = ts.splice(randI, 1)[0];
+        playerHand.add(t);
+    }
 }
