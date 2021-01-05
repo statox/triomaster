@@ -2,7 +2,7 @@ const TRIOMINO_SIZE = 50;
 let grid;
 let ts;
 let playerHand;
-let playedTs;
+let computerHand;
 let isFirstTurn = true;
 
 let selectedTriomino;
@@ -17,7 +17,6 @@ let rotateBtn;
 
 function resetGame() {
     ts = [];
-    playedTs = [];
     for (let j = 0; j < 7; j++) {
         for (let i = 0; i < 8; i++) {
             const {x, y} = ijToxy(i, j);
@@ -29,9 +28,14 @@ function resetGame() {
 
     grid = new Grid();
 
-    playerHand = new Hand();
-    for (let i = 0; i < 6; i++) {
-        drawTriomino();
+    playerHand = new Hand(true);
+    for (let i = 0; i < playerHand.initialNbOfTriominos; i++) {
+        playerHand.draw();
+    }
+
+    computerHand = new Hand(false);
+    for (let i = 0; i < computerHand.initialNbOfTriominos; i++) {
+        computerHand.draw();
     }
 }
 
@@ -46,7 +50,7 @@ function setup() {
     autoPlayBtn.mousePressed(autoPlay);
 
     drawBtn = createButton('Draw');
-    drawBtn.mousePressed(drawTriomino);
+    drawBtn.mousePressed(playerHand.draw);
 
     resetBtn = createButton('Reset');
     resetBtn.mousePressed(resetGame);
@@ -67,16 +71,12 @@ function setup() {
 }
 
 function draw() {
-    background(100, 100, 100);
+    background(50, 100, 50);
     // The sprites are used to be clickable but their drawing function
     // doesn't actually show anything
     drawSprites();
 
     grid.show();
-
     playerHand.show();
-
-    playedTs.forEach((t) => {
-        t.show();
-    });
+    computerHand.show();
 }

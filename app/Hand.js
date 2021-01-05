@@ -1,12 +1,15 @@
-function Hand() {
+function Hand(isPlayerHand) {
     this.offset = 0; // Used the slide the triominos
+    this.initialNbOfTriominos = 9;
     this.ts = [];
+    this.isPlayerHand = isPlayerHand;
+    this.baseY = isPlayerHand ? height - TRIOMINO_SIZE : -TRIOMINO_SIZE;
 
     this.add = (t) => {
         t.pointsDown = false;
         t.isInHand = true;
         const x = xOffset + this.ts.length * xOffset * 2;
-        const y = height - TRIOMINO_SIZE;
+        const y = this.baseY;
         t.move(x, y);
         this.ts.push(t);
     };
@@ -25,7 +28,7 @@ function Hand() {
 
         for (let i = 0; i < this.ts.length; i++) {
             const x = xOffset + i * xOffset * 2 + this.offset;
-            const y = height - TRIOMINO_SIZE;
+            const y = this.baseY;
             const t = this.ts[i];
             t.move(x, y);
         }
@@ -39,11 +42,27 @@ function Hand() {
         this.offset += direction === 'right' ? -TRIOMINO_SIZE : TRIOMINO_SIZE;
     };
 
+    // If there are remaining triominos in the game draw one and add it to the hand
+    this.draw = () => {
+        if (!ts.length) {
+            return;
+        }
+        const randI = parseInt(random(ts.length));
+        const t = ts.splice(randI, 1)[0];
+        this.add(t);
+    };
+
     this.show = () => {
         this.update();
-        fill(50);
-        rect(0, height - TRIOMINO_SIZE * 2, width, TRIOMINO_SIZE * 2);
+        if (this.isPlayerHand) {
+            fill(50);
+            rect(0, height - TRIOMINO_SIZE * 2, width, TRIOMINO_SIZE * 2);
 
-        this.ts.forEach((t) => t.show());
+            this.ts.forEach((t) => t.show());
+        } else {
+            textSize(20);
+            stroke(0);
+            text(`Opponent hand ${this.ts.length} triominos`, 10, height - TRIOMINO_SIZE * 2 - 30);
+        }
     };
 }

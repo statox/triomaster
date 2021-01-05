@@ -64,5 +64,9 @@ function Cell(i, j, r) {
         vertex(this.r * Math.cos((4 * PI) / 3), this.r * Math.sin((4 * PI) / 3));
         endShape(CLOSE);
         pop();
+
+        if (this.triomino) {
+            this.triomino.show();
+        }
     };
 }
