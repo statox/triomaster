@@ -16,8 +16,19 @@ function xyToij(x, y) {
 }
 
 function keyPressed() {
-    if (keyCode === LEFT_ARROW && selectedTriomino) {
-        selectedTriomino.turnLeft();
+    if (keyCode === UP_ARROW && selectedTriomino) {
+        selectedTriomino.rotate();
+    }
+
+    if (keyCode === LEFT_ARROW) {
+        playerHand.slide('left');
+    }
+    if (keyCode === RIGHT_ARROW) {
+        playerHand.slide('right');
+    }
+    // SPACE
+    if (keyCode === 32) {
+        drawTriomino();
     }
 }
 
@@ -73,49 +84,21 @@ function isAllowedMove(triomino, cell) {
         if (testMatch(triomino, cell)) {
             return true;
         }
-        triomino.turnLeft();
+        triomino.rotate();
     }
     return false;
 }
 function testMatch(triomino, cell) {
     const neighbors = grid.getNeighbors(cell.i, cell.j);
-    // Object.values(neighbors).forEach((c) => (c.selected = true));
 
     // Don't allow placing on a cell with no neighbors
     if (Object.values(neighbors).filter((c) => !c.triomino).length === Object.values(neighbors).length) {
         return false;
     }
-    const {right, left, top, bottom} = neighbors;
-    if (right && right.triomino) {
-        const rt = right.triomino;
-        if (cell.pointsDown && (triomino.values[2] != rt.values[0] || triomino.values[0] != rt.values[2])) {
-            return false;
-        }
-        if (!cell.pointsDown && (triomino.values[0] != rt.values[1] || triomino.values[1] != rt.values[0])) {
-            return false;
-        }
-    }
 
-    if (left && left.triomino) {
-        const lt = left.triomino;
-        if (!cell.pointsDown && (triomino.values[2] != lt.values[0] || triomino.values[0] != lt.values[2])) {
-            return false;
-        }
-        if (cell.pointsDown && (triomino.values[0] != lt.values[1] || triomino.values[1] != lt.values[0])) {
-            return false;
-        }
-    }
-
-    if (top && top.triomino) {
-        const tt = top.triomino;
-        if (triomino.values[1] != tt.values[2] || triomino.values[2] != tt.values[1]) {
-            return false;
-        }
-    }
-
-    if (bottom && bottom.triomino) {
-        const bt = bottom.triomino;
-        if (triomino.values[1] != bt.values[2] || triomino.values[2] != bt.values[1]) {
+    // For all 3 corners, check that the adjacent values are the same
+    for (let c = 0; c < 3; c++) {
+        if (grid.getNeighborsValuesForCorner(cell.i, cell.j, c).some((v) => v !== triomino.values[c])) {
             return false;
         }
     }
@@ -129,21 +112,28 @@ function autoPlay() {
     let foundMove = false;
     let stuck = false;
     let handIndex = 0;
-    while (!foundMove && handIndex < playerHand.ts.length) {
+    const possibleMoves = [];
+
+    while (handIndex < playerHand.ts.length) {
         const t = playerHand.ts[handIndex];
         for (l of grid.cells) {
             for (cell of l) {
                 if (isAllowedMove(t, cell)) {
-                    foundMove = true;
-                    t.select();
-                    cell.select();
-                    placeTriomino();
-                    return;
+                    possibleMoves.push({t, cell});
                 }
             }
         }
         handIndex++;
     }
+
+    if (possibleMoves.length > 0) {
+        const {t, cell} = possibleMoves[parseInt(Math.random() * possibleMoves.length) % possibleMoves.length];
+        t.select();
+        cell.select();
+        placeTriomino();
+        return;
+    }
+
     console.log('no move to play');
     if (ts.length) {
         console.log('drawing');

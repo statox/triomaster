@@ -40,7 +40,7 @@ function Cell(i, j, r) {
 
     this.show = () => {
         push();
-        stroke(0);
+        stroke('rgba(0, 0, 0, 0.1)');
         strokeWeight(1);
         noFill();
 

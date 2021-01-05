@@ -11,6 +11,9 @@ let selectedCell;
 let autoPlayBtn;
 let drawBtn;
 let resetBtn;
+let slideRightBtn;
+let slideLeftBtn;
+let rotateBtn;
 
 function resetGame() {
     ts = [];
@@ -47,6 +50,20 @@ function setup() {
 
     resetBtn = createButton('Reset');
     resetBtn.mousePressed(resetGame);
+
+    slideLeftBtn = createButton('');
+    slideLeftBtn.class('fas fa-arrow-circle-left');
+    slideLeftBtn.mousePressed(() => playerHand.slide('left'));
+    slideRightBtn = createButton('');
+    slideRightBtn.class('fas fa-arrow-circle-right');
+    slideRightBtn.mousePressed(() => playerHand.slide('right'));
+    rotateBtn = createButton('');
+    rotateBtn.class('fas fa-redo-alt');
+    rotateBtn.mousePressed(() => {
+        if (selectedTriomino) {
+            selectedTriomino.rotate();
+        }
+    });
 }
 
 function draw() {

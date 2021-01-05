@@ -37,7 +37,10 @@ function Triomino(x, y, r, pointsDown, values) {
         this.sprite.position.y = y;
     };
 
-    this.turnLeft = () => {
+    this.rotate = () => {
+        if (this.isPlayed) {
+            return;
+        }
         this.values.push(this.values.shift());
     };
 
@@ -45,10 +48,11 @@ function Triomino(x, y, r, pointsDown, values) {
         push();
         stroke(0);
         strokeWeight(1);
-        fill('rgba(200, 200, 200, 0.5)');
+        strokeJoin(ROUND);
+        fill('rgba(240, 230, 200, 0.5)');
 
         if (this.selected) {
-            fill('rgba(200, 200, 200, 0.8)');
+            fill('rgba(240, 230, 200, 0.8)');
         }
 
         // Move to the right position and rotate to point up
@@ -68,7 +72,7 @@ function Triomino(x, y, r, pointsDown, values) {
         endShape(CLOSE);
 
         // Drawn the values in each corners
-        textSize(15);
+        textSize(19);
         fill(0);
         for (let i = 0; i < this.values.length; i++) {
             push();
