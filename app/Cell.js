@@ -12,17 +12,6 @@ function Cell(i, j, r) {
     // its draw function creates the right shape but doesn't really draw it on screen
     this.sprite = createTriangleSprite(x, y, this.r);
 
-    this.sprite.onMousePressed = () => {
-        grid.cells.forEach((l) => {
-            l.forEach((c) => {
-                c.selected = false;
-            });
-        });
-
-        this.select();
-        placeTriomino();
-    };
-
     this.select = () => {
         if (!selectedTriomino) {
             return;

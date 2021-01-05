@@ -2,6 +2,7 @@ const TRIOMINO_SIZE = 50;
 let grid;
 let ts;
 let playerHand;
+let player;
 let computerHand;
 let isFirstTurn = true;
 
@@ -32,11 +33,15 @@ function resetGame() {
     for (let i = 0; i < playerHand.initialNbOfTriominos; i++) {
         playerHand.draw();
     }
-
     computerHand = new Hand(false);
     for (let i = 0; i < computerHand.initialNbOfTriominos; i++) {
         computerHand.draw();
     }
+
+    player = new Player(playerHand, drawBtn);
+    computer = new Computer(computerHand);
+    game = new Game(player, computer);
+    game.play();
 }
 
 function setup() {
@@ -44,13 +49,13 @@ function setup() {
     const myCanvas = createCanvas(800, 800);
     myCanvas.parent('canvasDiv');
 
+    drawBtn = createButton('Draw');
     resetGame();
 
-    autoPlayBtn = createButton('Auto');
-    autoPlayBtn.mousePressed(autoPlay);
-
-    drawBtn = createButton('Draw');
-    drawBtn.mousePressed(playerHand.draw);
+    /*
+     * autoPlayBtn = createButton('Auto');
+     * autoPlayBtn.mousePressed(player.chooseMoveAuto);
+     */
 
     resetBtn = createButton('Reset');
     resetBtn.mousePressed(resetGame);

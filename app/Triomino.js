@@ -10,13 +10,6 @@ function Triomino(x, y, r, pointsDown, values) {
     // The sprite is used to detect the clicks
     // its draw function creates the right shape but doesn't really draw it on screen
     this.sprite = createTriangleSprite(x, y, this.r);
-    this.sprite.onMousePressed = () => {
-        if (this.isInHand) {
-            playerHand.ts.forEach((t) => (t.selected = false));
-            unselectCell();
-            this.select();
-        }
-    };
 
     this.select = () => {
         selectedTriomino = this;

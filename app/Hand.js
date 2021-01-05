@@ -14,6 +14,12 @@ function Hand(isPlayerHand) {
         this.ts.push(t);
     };
 
+    this.select = (selectedTriomino) => {
+        this.ts.forEach((t) => {
+            t.selected = t.values.join() === selectedTriomino.values.join();
+        });
+    };
+
     // Used after a triomino is placed
     // Make sure the played triominos are removed from the hand
     // and move the remaining ones to fill the gap left by the played one
@@ -50,6 +56,7 @@ function Hand(isPlayerHand) {
         const randI = parseInt(random(ts.length));
         const t = ts.splice(randI, 1)[0];
         this.add(t);
+        return t;
     };
 
     this.show = () => {
@@ -62,7 +69,12 @@ function Hand(isPlayerHand) {
         } else {
             textSize(20);
             stroke(0);
+            fill(0);
             text(`Opponent hand ${this.ts.length} triominos`, 10, height - TRIOMINO_SIZE * 2 - 30);
+            /*
+             * const pieces = this.ts.map((t) => `[` + JSON.stringify(t.values) + `]`).join(' ');
+             * text(pieces, 10, height - TRIOMINO_SIZE * 2 - 10);
+             */
         }
     };
 }

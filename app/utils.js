@@ -28,39 +28,8 @@ function keyPressed() {
     }
     // SPACE
     if (keyCode === 32) {
-        playerHand.draw();
+        player.draw();
     }
-}
-
-function unselectTriomino() {
-    if (selectedTriomino) {
-        selectedTriomino.unselect();
-    }
-
-    playerHand.ts.forEach((t) => t.unselect());
-}
-function unselectCell() {
-    if (selectedCell) {
-        selectedCell.unselect();
-    }
-}
-function unselectEverything() {
-    unselectTriomino();
-    unselectCell();
-}
-
-function placeTriomino() {
-    if (!isAllowedMove(selectedTriomino, selectedCell)) {
-        unselectEverything();
-        return;
-    }
-
-    selectedCell.triomino = selectedTriomino;
-    selectedTriomino.move(selectedCell.pos.x, selectedCell.pos.y);
-    selectedTriomino.pointsDown = selectedCell.pointsDown;
-    selectedTriomino.isPlayed = true;
-
-    unselectEverything();
 }
 
 function isAllowedMove(triomino, cell) {
@@ -104,38 +73,4 @@ function testMatch(triomino, cell) {
     }
 
     return true;
-}
-
-function autoPlay() {
-    console.log('auto playing');
-
-    let handIndex = 0;
-    const possibleMoves = [];
-
-    for (let handIndex = 0; handIndex < playerHand.ts.length; handIndex++) {
-        const t = playerHand.ts[handIndex];
-        for (l of grid.cells) {
-            for (cell of l) {
-                if (isAllowedMove(t, cell)) {
-                    possibleMoves.push({t, cell});
-                }
-            }
-        }
-    }
-
-    if (possibleMoves.length > 0) {
-        const {t, cell} = possibleMoves[parseInt(Math.random() * possibleMoves.length) % possibleMoves.length];
-        t.select();
-        cell.select();
-        placeTriomino();
-        return;
-    }
-
-    console.log('no move to play');
-    if (ts.length) {
-        console.log('drawing');
-        playerHand.draw();
-    } else {
-        console.log('No more triominos to draw');
-    }
 }
