@@ -4,14 +4,19 @@ function Game(player, computer) {
 
     this.play = () => {
         this.currentPlayer.chooseMove(({triomino, cell, draw}) => {
-            if (draw || isAllowedMove(triomino, cell)) {
-                const tmp = this.otherPlayer;
-                if (!draw) {
-                    this.makeMove(triomino, cell);
+            if (isAllowedMove(triomino, cell)) {
+                if (draw) {
+                    throw new Error('Move allowed after a draw. Should not happen');
                 }
-
+                const tmp = this.otherPlayer;
+                this.currentPlayer.score += triomino.values.reduce((a, b) => a + b);
+                this.makeMove(triomino, cell);
                 this.otherPlayer = this.currentPlayer;
                 this.currentPlayer = tmp;
+            }
+
+            if (draw) {
+                this.currentPlayer.score -= 5;
             }
 
             this.play();
@@ -24,5 +29,6 @@ function Game(player, computer) {
         triomino.pointsDown = cell.pointsDown;
         triomino.isPlayed = true;
         triomino.selected = false;
+        this.currentPlayer.hand.update();
     };
 }

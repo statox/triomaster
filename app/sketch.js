@@ -14,7 +14,6 @@ let drawBtn;
 let resetBtn;
 let slideRightBtn;
 let slideLeftBtn;
-let rotateBtn;
 
 function resetGame() {
     ts = [];
@@ -57,8 +56,10 @@ function setup() {
      * autoPlayBtn.mousePressed(player.chooseMoveAuto);
      */
 
-    resetBtn = createButton('Reset');
-    resetBtn.mousePressed(resetGame);
+    /*
+     * resetBtn = createButton('Reset');
+     * resetBtn.mousePressed(resetGame);
+     */
 
     slideLeftBtn = createButton('');
     slideLeftBtn.class('fas fa-arrow-circle-left');
@@ -66,13 +67,6 @@ function setup() {
     slideRightBtn = createButton('');
     slideRightBtn.class('fas fa-arrow-circle-right');
     slideRightBtn.mousePressed(() => playerHand.slide('right'));
-    rotateBtn = createButton('');
-    rotateBtn.class('fas fa-redo-alt');
-    rotateBtn.mousePressed(() => {
-        if (selectedTriomino) {
-            selectedTriomino.rotate();
-        }
-    });
 }
 
 function draw() {
@@ -81,7 +75,23 @@ function draw() {
     // doesn't actually show anything
     drawSprites();
 
+    showGameInfo();
     grid.show();
     playerHand.show();
-    computerHand.show();
+}
+
+function showGameInfo() {
+    textSize(20);
+    noStroke();
+    fill(0);
+    const opponentHandStr = `Computer hand: ${computer.hand.ts.length}`;
+    const remainingStr = `Triominos left: ${ts.length}`;
+    const playerScoreStr = `Player: ${player.score}`;
+    const computerScoreStr = `Computer: ${computer.score}`;
+
+    const infoStr = [opponentHandStr, remainingStr].join('\t');
+    const scoresStr = ['Scores: ', playerScoreStr, computerScoreStr].join('\t');
+
+    text(infoStr, 0, height - TRIOMINO_SIZE * 2 - 55);
+    text(scoresStr, 0, height - TRIOMINO_SIZE * 2 - 25);
 }

@@ -1,4 +1,5 @@
 function Player(hand, drawBtn) {
+    this.score = 0;
     this.hand = hand;
     this.chosenMove = {triomino: null, cell: null};
     this.drawBtn = drawBtn;

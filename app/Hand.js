@@ -66,15 +66,6 @@ function Hand(isPlayerHand) {
             rect(0, height - TRIOMINO_SIZE * 2, width, TRIOMINO_SIZE * 2);
 
             this.ts.forEach((t) => t.show());
-        } else {
-            textSize(20);
-            stroke(0);
-            fill(0);
-            text(`Opponent hand ${this.ts.length} triominos`, 10, height - TRIOMINO_SIZE * 2 - 30);
-            /*
-             * const pieces = this.ts.map((t) => `[` + JSON.stringify(t.values) + `]`).join(' ');
-             * text(pieces, 10, height - TRIOMINO_SIZE * 2 - 10);
-             */
         }
     };
 }
