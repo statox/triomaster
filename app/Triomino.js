@@ -37,6 +37,8 @@ function Triomino(x, y, r, pointsDown, values) {
         this.values.push(this.values.shift());
     };
 
+    this.getNumericalValue = () => this.values.map(Number).reduce((a, b) => a + b);
+
     this.show = () => {
         push();
         stroke(0);

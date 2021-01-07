@@ -20,6 +20,8 @@ function Hand(isPlayerHand) {
         });
     };
 
+    this.getTriples = () => this.ts.filter((t) => t.values[0] === t.values[1] && t.values[1] === t.values[2]);
+
     // Used after a triomino is placed
     // Make sure the played triominos are removed from the hand
     // and move the remaining ones to fill the gap left by the played one

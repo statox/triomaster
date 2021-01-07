@@ -5,6 +5,12 @@ function Computer(hand) {
         let handIndex = 0;
         const possibleMoves = [];
 
+        if (isFirstTurn) {
+            const cell = grid.cells[parseInt(grid.H / 2)][parseInt(grid.W / 2)];
+            const triomino = this.hand.ts[0];
+            return this.selectionMade({triomino, cell}, cb);
+        }
+
         for (let handIndex = 0; handIndex < this.hand.ts.length; handIndex++) {
             const t = this.hand.ts[handIndex];
             for (l of grid.cells) {

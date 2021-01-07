@@ -40,7 +40,7 @@ function resetGame() {
     player = new Player(playerHand, drawBtn);
     computer = new Computer(computerHand);
     game = new Game(player, computer);
-    game.play();
+    game.start();
 }
 
 function setup() {
@@ -88,10 +88,12 @@ function showGameInfo() {
     const remainingStr = `Triominos left: ${ts.length}`;
     const playerScoreStr = `Player: ${player.score}`;
     const computerScoreStr = `Computer: ${computer.score}`;
+    const debugComputerHand = computer.hand.ts.map((t) => t.values.join('')).join('-');
 
     const infoStr = [opponentHandStr, remainingStr].join('\t');
     const scoresStr = ['Scores: ', playerScoreStr, computerScoreStr].join('\t');
 
     text(infoStr, 0, height - TRIOMINO_SIZE * 2 - 55);
     text(scoresStr, 0, height - TRIOMINO_SIZE * 2 - 25);
+    // text(debugComputerHand, width - textWidth(debugComputerHand), height - TRIOMINO_SIZE * 2 - 55);
 }

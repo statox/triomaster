@@ -74,3 +74,12 @@ function testMatch(triomino, cell) {
 
     return true;
 }
+
+function getMaxTriomino(ts) {
+    return ts.reduce((max, curr) => {
+        if (curr.getNumericalValue() > max.getNumericalValue()) {
+            return curr;
+        }
+        return max;
+    }, ts[0]);
+}
