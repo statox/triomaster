@@ -17,13 +17,8 @@ let slideLeftBtn;
 
 function resetGame() {
     ts = [];
-    for (let j = 0; j < 7; j++) {
-        for (let i = 0; i < 8; i++) {
-            const {x, y} = ijToxy(i, j);
-            ts.push(
-                new Triomino(x, y, TRIOMINO_SIZE, (i + j) % 2 === 1, combinations[(i + j * 8) % combinations.length])
-            );
-        }
+    for (combination of combinations) {
+        ts.push(new Triomino(0, 0, TRIOMINO_SIZE, false, combination));
     }
 
     grid = new Grid();
@@ -75,9 +70,9 @@ function draw() {
     // doesn't actually show anything
     drawSprites();
 
-    showGameInfo();
     grid.show();
     playerHand.show();
+    showGameInfo();
 }
 
 function showGameInfo() {
@@ -96,4 +91,21 @@ function showGameInfo() {
     text(infoStr, 0, height - TRIOMINO_SIZE * 2 - 55);
     text(scoresStr, 0, height - TRIOMINO_SIZE * 2 - 25);
     // text(debugComputerHand, width - textWidth(debugComputerHand), height - TRIOMINO_SIZE * 2 - 55);
+
+    if (game.isOver) {
+        fill(250);
+        const gameOverBaseHeight = height - 120;
+        const gameOverText = 'GAME OVER';
+        text(gameOverText, width / 2 - textWidth(gameOverText) / 2, gameOverBaseHeight);
+        let winnerText = 'Equality';
+        if (game.winner instanceof Player) {
+            winnerText = 'You win!';
+        }
+        if (game.winner instanceof Computer) {
+            winnerText = 'Computer wins!';
+        }
+        text(winnerText, width / 2 - textWidth(winnerText) / 2, gameOverBaseHeight + 40);
+        const scoreText = `${game.player.score} - ${game.computer.score}`;
+        text(scoreText, width / 2 - textWidth(scoreText) / 2, gameOverBaseHeight + 80);
+    }
 }

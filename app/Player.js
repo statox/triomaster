@@ -52,6 +52,8 @@ function Player(hand, drawBtn) {
 
     this.draw = () => {
         const newT = this.hand.draw();
-        this.setTriominoCallback(newT);
+        if (newT) {
+            this.setTriominoCallback(newT);
+        }
     };
 }

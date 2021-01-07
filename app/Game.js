@@ -3,11 +3,18 @@ function Game(player, computer) {
     this.computer = computer;
     this.currentPlayer;
     this.otherPlayer;
+    this.blockedPlayer;
+    this.winner;
+    this.isOver;
 
     this.start = () => {
         if (!this.player || !this.computer || !this.player.hand || !this.computer.hand) {
             throw new Error('Trying to start a game without initialized players');
         }
+
+        this.blockedPlayer = new Set();
+        this.winner = undefined;
+        this.isOver = false;
 
         // Compute the initial points and the starting player
         const playerTriples = this.player.hand.getTriples();
@@ -66,6 +73,8 @@ function Game(player, computer) {
                 if (draw) {
                     throw new Error('Move allowed after a draw. Should not happen');
                 }
+                // Current player is not blocked anymore since they were able to play
+                this.blockedPlayer.delete(this.currentPlayer);
                 // If the first player triomino is triple zero there is a 30 points bonus
                 if (
                     isFirstTurn &&
@@ -84,10 +93,48 @@ function Game(player, computer) {
 
             if (draw) {
                 this.currentPlayer.score -= 5;
+
+                // If there is no more triomino to draw and the player has to draw
+                // mark them as blocked (used to compute end of game)
+                if (!ts.length) {
+                    const tmp = this.otherPlayer;
+                    this.otherPlayer = this.currentPlayer;
+                    this.currentPlayer = tmp;
+                    this.blockedPlayer.add(this.currentPlayer);
+                }
             }
 
-            this.play();
+            if (this.isGameOver()) {
+                return this.stop();
+            }
+            return this.play();
         });
+    };
+
+    this.isGameOver = () => {
+        // Stops if a player has no triomino in their hand
+        if (!this.player.hand.ts.length || !this.computer.hand.ts.length) {
+            console.log('Game over - no more tiles to play');
+            return true;
+        }
+
+        // Stops if both player have to draw but no more triomino are in the pile
+        if (this.blockedPlayer.size === 2) {
+            console.log('Game over - both players blocked');
+            return true;
+        }
+
+        return false;
+    };
+
+    this.stop = () => {
+        this.isOver = true;
+        if (this.player.score > this.computer.score) {
+            this.winner = this.player;
+        }
+        if (this.computer.score > this.player.score) {
+            this.winner = this.computer;
+        }
     };
 
     this.makeMove = (triomino, cell) => {
