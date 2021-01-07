@@ -114,13 +114,13 @@ function Game(player, computer) {
     this.isGameOver = () => {
         // Stops if a player has no triomino in their hand
         if (!this.player.hand.ts.length || !this.computer.hand.ts.length) {
-            console.log('Game over - no more tiles to play');
+            // console.log('Game over - no more tiles to play');
             return true;
         }
 
         // Stops if both player have to draw but no more triomino are in the pile
         if (this.blockedPlayer.size === 2) {
-            console.log('Game over - both players blocked');
+            // console.log('Game over - both players blocked');
             return true;
         }
 

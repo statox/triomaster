@@ -24,18 +24,18 @@ function Computer(hand) {
 
         if (possibleMoves.length > 0) {
             const {t, cell} = possibleMoves[parseInt(Math.random() * possibleMoves.length) % possibleMoves.length];
-            console.log('COMPUTER playing', t.values, [cell.i, cell.j].join(','));
+            //console.log('COMPUTER playing', t.values, [cell.i, cell.j].join(','));
             return this.selectionMade({triomino: t, cell}, cb);
         }
 
-        console.log('COMPUTER no move to play');
+        //console.log('COMPUTER no move to play');
         if (ts.length) {
-            console.log('COMPUTER drawing');
+            //console.log('COMPUTER drawing');
             this.draw();
             return cb({draw: true});
         }
 
-        console.log('COMPUTER No more triominos to draw');
+        //console.log('COMPUTER No more triominos to draw');
         return;
     };
 }
