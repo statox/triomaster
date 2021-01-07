@@ -11,18 +11,6 @@ function Triomino(x, y, r, pointsDown, values) {
     // its draw function creates the right shape but doesn't really draw it on screen
     this.sprite = createTriangleSprite(x, y, this.r);
 
-    this.select = () => {
-        selectedTriomino = this;
-        this.selected = true;
-    };
-
-    this.unselect = () => {
-        if (selectedTriomino) {
-            selectedTriomino = undefined;
-        }
-        this.selected = false;
-    };
-
     this.move = (x, y) => {
         this.pos.x = x;
         this.pos.y = y;

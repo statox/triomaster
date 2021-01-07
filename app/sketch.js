@@ -6,9 +6,6 @@ let player;
 let computerHand;
 let isFirstTurn;
 
-let selectedTriomino;
-let selectedCell;
-
 let autoPlayBtn;
 let drawBtn;
 let resetBtn;

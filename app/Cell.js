@@ -12,21 +12,6 @@ function Cell(i, j, r) {
     // its draw function creates the right shape but doesn't really draw it on screen
     this.sprite = createTriangleSprite(x, y, this.r);
 
-    this.select = () => {
-        if (!selectedTriomino) {
-            return;
-        }
-        selectedCell = this;
-        this.selected = true;
-    };
-
-    this.unselect = () => {
-        if (selectedCell) {
-            selectedCell = undefined;
-        }
-        this.selected = false;
-    };
-
     this.show = () => {
         push();
         stroke('rgba(0, 0, 0, 0.1)');

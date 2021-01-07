@@ -16,10 +16,6 @@ function xyToij(x, y) {
 }
 
 function keyPressed() {
-    if (keyCode === UP_ARROW && selectedTriomino) {
-        selectedTriomino.rotate();
-    }
-
     if (keyCode === LEFT_ARROW) {
         playerHand.slide('left');
     }
