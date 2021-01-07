@@ -4,7 +4,7 @@ let ts;
 let playerHand;
 let player;
 let computerHand;
-let isFirstTurn = true;
+let isFirstTurn;
 
 let selectedTriomino;
 let selectedCell;
@@ -16,10 +16,22 @@ let slideRightBtn;
 let slideLeftBtn;
 
 function resetGame() {
+    for (sprite of getSprites()) {
+        sprite.remove();
+    }
+    if (grid && grid.cells.length) {
+        for (let j = grid.H - 1; j >= 0; j--) {
+            for (let i = grid.W; i >= 0; i--) {
+                delete grid.cells[j][i];
+            }
+        }
+    }
+
     ts = [];
     for (combination of combinations) {
         ts.push(new Triomino(0, 0, TRIOMINO_SIZE, false, combination));
     }
+    isFirstTurn = true;
 
     grid = new Grid();
 
@@ -36,6 +48,11 @@ function resetGame() {
     computer = new Computer(computerHand);
     game = new Game(player, computer);
     game.start();
+
+    resetBtn.hide();
+    drawBtn.show();
+    slideLeftBtn.show();
+    slideRightBtn.show();
 }
 
 function setup() {
@@ -43,18 +60,14 @@ function setup() {
     const myCanvas = createCanvas(800, 800);
     myCanvas.parent('canvasDiv');
 
-    drawBtn = createButton('Draw');
-    resetGame();
-
     /*
      * autoPlayBtn = createButton('Auto');
      * autoPlayBtn.mousePressed(player.chooseMoveAuto);
      */
 
-    /*
-     * resetBtn = createButton('Reset');
-     * resetBtn.mousePressed(resetGame);
-     */
+    drawBtn = createButton('Draw');
+    resetBtn = createButton('Reset');
+    resetBtn.mousePressed(resetGame);
 
     slideLeftBtn = createButton('');
     slideLeftBtn.class('fas fa-arrow-circle-left');
@@ -62,6 +75,8 @@ function setup() {
     slideRightBtn = createButton('');
     slideRightBtn.class('fas fa-arrow-circle-right');
     slideRightBtn.mousePressed(() => playerHand.slide('right'));
+
+    resetGame();
 }
 
 function draw() {
@@ -107,5 +122,10 @@ function showGameInfo() {
         text(winnerText, width / 2 - textWidth(winnerText) / 2, gameOverBaseHeight + 40);
         const scoreText = `${game.player.score} - ${game.computer.score}`;
         text(scoreText, width / 2 - textWidth(scoreText) / 2, gameOverBaseHeight + 80);
+
+        resetBtn.show();
+        drawBtn.hide();
+        slideLeftBtn.hide();
+        slideRightBtn.hide();
     }
 }
